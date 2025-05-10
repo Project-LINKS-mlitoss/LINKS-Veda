@@ -1,0 +1,30 @@
+{
+	"include": [
+		"env.d.ts",
+		"**/*.ts",
+		"**/*.tsx",
+		"tailwind.config.ts",
+		"prisma/seed.mts"
+	],
+	"exclude": ["../build/server/remix.js"],
+	"compilerOptions": {
+		"lib": ["DOM", "DOM.Iterable", "ES2022", "webworker"],
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"jsx": "react-jsx",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"resolveJsonModule": true,
+		"target": "ES2022",
+		"strict": true,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"forceConsistentCasingInFileNames": true,
+		"baseUrl": ".",
+		"paths": {
+			"~/*": ["./app/*"]
+		},
+		// Vite takes care of building everything, not tsc.
+		"noEmit": true
+	}
+}

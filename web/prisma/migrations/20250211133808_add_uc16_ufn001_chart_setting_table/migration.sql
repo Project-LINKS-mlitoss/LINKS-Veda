@@ -1,0 +1,19 @@
+-- CreateTable
+CREATE TABLE `UC16UFN001ChartSetting` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `userId` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `type` VARCHAR(191) NOT NULL,
+    `xaxis` VARCHAR(191) NOT NULL,
+    `yaxis` VARCHAR(191) NOT NULL,
+    `column` VARCHAR(191) NOT NULL,
+    `filterId` INTEGER NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `UC16UFN001ChartSetting_filterId_key`(`filterId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `UC16UFN001ChartSetting` ADD CONSTRAINT `UC16UFN001ChartSetting_filterId_fkey` FOREIGN KEY (`filterId`) REFERENCES `UC16UFN001Filter`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

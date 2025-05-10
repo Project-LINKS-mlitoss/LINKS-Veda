@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE `UC16UFN002Setting` ADD COLUMN `flightAirspace` VARCHAR(191) NULL;

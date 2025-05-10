@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE `UC16UFN002Setting` MODIFY `modalName` VARCHAR(191) NULL,
+    MODIFY `kind` VARCHAR(191) NULL;

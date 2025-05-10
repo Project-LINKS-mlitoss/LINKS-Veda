@@ -1,0 +1,14 @@
+# os lib
+sudo apt install coinor-libipopt-dev
+
+# python lib
+numpy
+python-dotenv
+pypdf
+scikit-learn
+torch
+torchvision
+transformers
+azure-ai-formrecognizer
+fugashi
+unidic-lite

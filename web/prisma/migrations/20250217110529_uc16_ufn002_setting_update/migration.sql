@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE `UC16UFN002Setting` ADD COLUMN `city` VARCHAR(191) NULL,
+    ADD COLUMN `district` VARCHAR(191) NULL,
+    ADD COLUMN `prefecture` VARCHAR(191) NULL;

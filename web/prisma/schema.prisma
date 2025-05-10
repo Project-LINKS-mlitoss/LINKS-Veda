@@ -1,0 +1,703 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model ContentConfigs {
+  id         Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  assetId    String    @map("asset_id") // アセットのID
+  fileIds    Json      @map("file_ids") // アセットに含まれるファイルのID
+  configJson Json      @map("config_json") // スキーマの設定（JSON形式）
+  ticketId   String    @map("ticket_id") // MBとのやり取りのためのID
+  modelId    String    @map("model_id") // モデルのID
+  schemaId   String    @map("schema_id") // スキーマのID
+  status     Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username   String?   @map("username")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  @@map("content_configs")
+}
+
+model ResourcePermissions {
+  id           Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  userId       String    @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username     String    @map("username")
+  resourceType String    @map("resource_type") // リソースタイプ
+  resourceId   String    @map("resource_id") // リソースのID
+  role         Int       @map("role") // アクセス権限（閲覧・編集など）
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  @@map("resource_permissions")
+}
+
+model PreprocessContentConfigs {
+  id         Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  inputId    String    @map("input_id") @db.VarChar(191) // 入力ID
+  inputType  String    @map("input_type") @db.VarChar(25) // 入力タイプ
+  outputType String    @map("output_type") @db.VarChar(25) // 出力タイプ
+  configJson Json      @map("config_json") // 設定JSON
+  ticketId   String    @map("ticket_id") @db.VarChar(191) // チケットID
+  modelId    String    @map("model_id") @db.VarChar(191) // モデルID
+  schemaId   String    @map("schema_id") @db.VarChar(191) // スキーマID
+  status     Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username   String?   @map("username")
+  createdAt  DateTime  @default(now()) @map("created_at")
+  updatedAt  DateTime? @updatedAt @map("updated_at")
+  deletedAt  DateTime? @map("deleted_at")
+
+  @@map("preprocess_content_configs")
+}
+
+model TextMatchingContentConfigs {
+  id             Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  leftContentId  String    @map("left_content_id") @db.VarChar(191) // スキーマID
+  rightContentId String    @map("right_content_id") @db.VarChar(191) // スキーマID
+  outputType     String    @map("output_type") @db.VarChar(25) // 出力タイプ
+  configJson     Json      @map("config_json") // 設定JSON
+  ticketId       String    @map("ticket_id") @db.VarChar(191) // チケットID
+  modelId        String    @map("model_id") @db.VarChar(191) // モデルID
+  schemaId       String    @map("schema_id") @db.VarChar(191) // スキーマID
+  status         Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username       String?   @map("username")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  @@map("text_matching_content_configs")
+}
+
+model CrossJoinContentConfigs {
+  id             Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  inputContentId String    @map("input_content_id") @db.VarChar(191) // スキーマID
+  outputType     String?   @map("output_type") @db.VarChar(25) // 出力タイプ
+  configJson     Json      @map("config_json") // 設定JSON
+  ticketId       String    @map("ticket_id") @db.VarChar(191) // チケットID
+  modelId        String    @map("model_id") @db.VarChar(191) // モデルID
+  schemaId       String    @map("schema_id") @db.VarChar(191) // スキーマID
+  status         Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username       String?   @map("username")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  @@map("cross_join_content_configs")
+}
+
+model SpatialJoinContentConfigs {
+  id             Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  leftContentId  String    @map("left_content_id") @db.VarChar(191) // スキーマID
+  rightContentId String    @map("right_content_id") @db.VarChar(191) // スキーマID
+  configJson     Json      @map("config_json") // 設定JSON
+  ticketId       String    @map("ticket_id") @db.VarChar(191) // チケットID
+  modelId        String    @map("model_id") @db.VarChar(191) // モデルID
+  schemaId       String    @map("schema_id") @db.VarChar(191) // スキーマID
+  status         Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username       String?   @map("username")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  @@map("spatial_join_content_configs")
+}
+
+model SpatialAggregateContentConfigs {
+  id             Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  leftContentId  String    @map("left_content_id") @db.VarChar(191) // スキーマID
+  rightContentId String    @map("right_content_id") @db.VarChar(191) // スキーマID
+  configJson     Json      @map("config_json") // 設定JSON
+  ticketId       String    @map("ticket_id") @db.VarChar(191) // チケットID
+  modelId        String    @map("model_id") @db.VarChar(191) // モデルID
+  schemaId       String    @map("schema_id") @db.VarChar(191) // スキーマID
+  status         Int       @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied, 4: saved
+  username       String?   @map("username")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+  deletedAt      DateTime? @map("deleted_at")
+
+  @@map("spatial_aggregate_content_configs")
+}
+
+model Templates {
+  id           Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  name         String    @map("name") // 名前
+  operatorType String    @map("operator_type") // 演算子タイプ
+  configJson   Json      @map("config_json") // 設定 JSON
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  @@map("templates")
+}
+
+model ContentItemConfidence {
+  id        Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  itemId    String    @map("item_id")
+  metadata  Json?     @map("metadata")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  @@map("content_item_confidences")
+}
+
+model ContentManagements {
+  id              Int     @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId       String  @map("content_id") @db.VarChar(191) // スキーマID
+  parentContentId String? @map("parent_content_id") @db.VarChar(191)
+  assetId         String? @map("asset_id") // アセットのID
+  assetUrl        String? @map("asset_url") @db.Text // アセットのURL
+  status          String  @map("status")
+  userId          String  @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username        String  @map("username")
+
+  createdAt DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt DateTime? @map("deleted_at") // 削除日
+
+  @@map("content_managements")
+}
+
+model ContentAssetCreationLog {
+  id        Int     @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId String  @map("content_id") @db.VarChar(191) // スキーマID
+  assetId   String? @map("asset_id") // アセットのID
+  assetUrl  String? @map("asset_url") @db.Text // アセットのURL
+  type      String  @map("type")
+  status    Int     @default(1) @map("status") @db.TinyInt // 1: created, 2: inprogress, 3: done, -1: falied
+  userId    String  @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username  String  @map("username")
+
+  createdAt DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt DateTime? @map("deleted_at") // 削除日
+
+  @@map("content_asset_creation_logs")
+}
+
+model Dataset {
+  id                 Int     @id @default(autoincrement()) @map("id")
+  name               String  @map("name")
+  isPublish          Boolean @default(false) @map("is_publish")
+  useCaseId          Int     @map("use_case_id") @db.UnsignedInt
+  packageId          String? @map("package_id")
+  assetId            String? @map("asset_id") // アセットのID
+  assetUrl           String? @map("asset_url") @db.Text // アセットのURL
+  resourceMarkdownId String? @map("resource_markdown_id")
+  metaData           Json?   @map("metaData")
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  useCase UseCase @relation(fields: [useCaseId], references: [id])
+
+  datasetContentManagements DatasetContentManagement[]
+
+  @@map("datasets")
+}
+
+model DatasetContentManagement {
+  id                  Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId           String    @map("content_id")
+  datasetId           Int       @map("dataset_id")
+  contentManagementId Int?      @map("content_management_id")
+  contentVisualizeId  Int?      @map("content_visualize_id")
+  dataset             Dataset   @relation(fields: [datasetId], references: [id])
+  resourceId          String?   @map("resource_id")
+  createdAt           DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt           DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt           DateTime? @map("deleted_at") // 削除日
+
+  @@map("dataset_content_managements")
+}
+
+model UseCase {
+  id        Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  name      String    @map("name")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  datasets Dataset[]
+
+  @@map("use_cases")
+}
+
+model Workflow {
+  id        Int       @id @default(autoincrement())
+  name      String    @map("name")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+  deletedAt DateTime? @map("deleted_at")
+
+  workflowDetails WorkflowDetail[]
+
+  @@map("workflows")
+}
+
+model WorkflowDetail {
+  id           Int       @id @default(autoincrement())
+  workflowId   Int       @map("workflow_id")
+  workflow     Workflow  @relation(fields: [workflowId], references: [id])
+  step         Int       @map("step")
+  operatorType String    @map("operator_type")
+  configJson   Json      @map("config_json") // 設定JSON
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime? @updatedAt @map("updated_at")
+  deletedAt    DateTime? @map("deleted_at")
+
+  workflowDetailExecutions WorkflowDetailExecution[]
+
+  @@map("workflow_details")
+}
+
+model WorkflowDetailExecution {
+  id               Int            @id @default(autoincrement())
+  workflowDetailId Int            @map("workflow_detail_id")
+  workflowDetail   WorkflowDetail @relation(fields: [workflowDetailId], references: [id])
+  executionUuid    String         @map("execution_uuid") @db.VarChar(191)
+  step             Int            @map("step")
+  status           Int            @default(1) // Status: 1: CREATED, 2: IN_PROGRESS, 3: DONE, -1: FAILED
+  operatorId       Int?           @map("operator_id")
+  operatorType     String         @map("operator_type")
+  configJson       Json           @map("config_json") // 設定JSON
+  userId           String         @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  createdAt        DateTime       @default(now()) @map("created_at")
+  createdBy        String?        @map("created_by")
+  updatedAt        DateTime?      @updatedAt @map("updated_at")
+  deletedAt        DateTime?      @map("deleted_at")
+
+  @@map("workflow_detail_executions")
+}
+
+model ContentChats {
+  id        Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId String    @map("content_id") @db.VarChar(191) // スキーマID
+  chatId    String    @map("chat_id")
+  userId    String    @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username  String    @map("username")
+  status    Int       @default(1) // Status: 1: CREATED, 2: IN_PROGRESS, 3: DONE, -1: FAILED
+  createdAt DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt DateTime? @map("deleted_at") // 削除日
+
+  @@map("content_chats")
+}
+
+model ContentVisualizes {
+  id        Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId String    @map("content_id") @db.VarChar(191) // スキーマID
+  assetId   String?   @map("asset_id") // アセットのID
+  assetUrl  String?   @map("asset_url") @db.Text // アセットのURL
+  status    String    @map("status")
+  userId    String    @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username  String    @map("username")
+  createdAt DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt DateTime? @map("deleted_at") // 削除日
+
+  @@map("content_visualizes")
+}
+
+model ContentMetadata {
+  id           Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  contentId    String    @map("content_id") @db.VarChar(191) // スキーマID
+  metadataJson Json      @map("metadata_json") // 設定JSON
+  userId       String    @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  username     String    @map("username")
+  createdAt    DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt    DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt    DateTime? @map("deleted_at") // 削除日
+
+  @@map("content_metadata")
+}
+
+model UC16UFN001Setting {
+  id     Int    @id @default(autoincrement())
+  userId String @unique
+
+  filterId Int              @unique
+  filter   UC16UFN001Filter @relation(fields: [filterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model UC16UFN001ChartSetting {
+  id     Int    @id @default(autoincrement())
+  userId String
+
+  title  String
+  type   String
+  xaxis  String
+  yaxis  String
+  column String
+
+  filterId Int              @unique
+  filter   UC16UFN001Filter @relation(fields: [filterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model UC16UFN001Filter {
+  id Int @id @default(autoincrement())
+
+  // リレーション
+  setting      UC16UFN001Setting?
+  chartSetting UC16UFN001ChartSetting?
+
+  // 期間
+  from DateTime
+  to   DateTime
+
+  // 各種区域
+  redZone     Boolean @default(false)
+  yellowZone  Boolean @default(false)
+  airportZone Boolean @default(false)
+  didZone     Boolean @default(false)
+  mannedZone  Boolean @default(false)
+
+  // 行政区域
+  N03_001 String?
+  N03_003 String?
+  N03_004 String?
+
+  // 機器情報
+  manufacturerNames       Json // string[]
+  modelNames              Json // string[]
+  manufacturingTypes      Json // string[]
+  aircraftWeightMin       Float?
+  aircraftWeightMax       Float?
+  maximumTakeoffWeightMin Float?
+  maximumTakeoffWeightMax Float?
+  wingspanMin             Float?
+  wingspanMax             Float?
+  lengthMin               Float?
+  lengthMax               Float?
+  heightMin               Float?
+  heightMax               Float?
+
+  // 飛行計画情報
+  // 目的
+  flightPurposeAerialPhotography                      Boolean @default(false)
+  flightPurposeJournalism                             Boolean @default(false)
+  flightPurposeSecurity                               Boolean @default(false)
+  flightPurposeAgricultureForestryAndFisheries        Boolean @default(false)
+  flightPurposeSurveying                              Boolean @default(false)
+  flightPurposeEnvironmentalResearch                  Boolean @default(false)
+  flightPurposeEquipmentMaintenance                   Boolean @default(false)
+  flightPurposeInfrastructureInspectionAndMaintenance Boolean @default(false)
+  flightPurposeMaterialManagement                     Boolean @default(false)
+  flightPurposeTransportationDelivery                 Boolean @default(false)
+  flightPurposeNatureObservation                      Boolean @default(false)
+  flightPurposeIncidentDisasterResponse               Boolean @default(false)
+  flightPurposeOtherForCommercial                     Boolean @default(false)
+  flightPurposeHobby                                  Boolean @default(false)
+  flightPurposeResearchAndDevelopment                 Boolean @default(false)
+  flightPurposeOtherForNonCommercial                  Boolean @default(false)
+
+  // 飛行計画情報
+  // 方法
+  flightMethodWithin30m               Boolean @default(false)
+  flightMethodDuringEvents            Boolean @default(false)
+  flightMethodNightOperations         Boolean @default(false)
+  flightMethodBeyondVisualLineOfSight Boolean @default(false)
+  flightMethodOverHazardousAreas      Boolean @default(false)
+  flightMethodObjectDropping          Boolean @default(false)
+  flightMethodNone                    Boolean @default(false)
+
+  // 飛行計画情報
+  // 飛行空域
+  flightAirspaceDID                 Boolean @default(false)
+  flightAirspace150mAboveGround     Boolean @default(false)
+  flightAirspaceAirportSurroundings Boolean @default(false)
+  flightAirspaceNone                Boolean @default(false)
+
+  // 飛行計画情報
+  // その他
+  flightSpeedMin      Int?
+  flightSpeedMax      Int?
+  flightAltitudeMin   Int?
+  flightAltitudeMax   Int?
+  requiredDurationMin Int?
+  requiredDurationMax Int?
+
+  // 保険情報
+  personalLiabilityCoverageAmountMin Int?
+  personalLiabilityCoverageAmountMax Int?
+  propertyDamageCoverageAmountMin    Int?
+  propertyDamageCoverageAmountMax    Int?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+}
+
+model UC16UFN002Setting {
+  id                          Int       @id @default(autoincrement())
+  userId                      String    @unique
+  from                        DateTime
+  to                          DateTime
+  selectArea                  String?
+  variousRegions              String?
+  prefecture                  String?
+  city                        String?
+  district                    String?
+  accidentType                String?
+  reportSummary               String?   @db.Text
+  category                    String?
+  maker                       String?
+  modalName                   String?   @db.Text
+  kind                        String?   @db.Text
+  aircraftWeight              String?
+  maximumTakeWeight           String?
+  fullWidth                   String?
+  fullLength                  String?
+  overAllWeight               String?
+  purpose                     String?
+  method                      String?
+  flightAirspace              String?
+  altitude                    String?
+  speed                       String?
+  duration                    String?
+  personalInjury              String?
+  thirdPartyDamage            String?
+  aircraftCollision           String?
+  riskOfCollision             String?
+  lossOfControl               String?
+  fireInFlight                String?
+  personalCompensationAmount  String?
+  objectiveCompensationAmount String?
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime? @updatedAt
+}
+
+model UserSetting {
+  id                  Int       @id @default(autoincrement())
+  userId              String    @map("user_id")
+  useCase             String    @map("use_case")
+  periodSettingId     Int       @map("period_setting_id")
+  areaSettingId       Int       @map("area_setting_id")
+  flightPlanSettingId Int       @map("flight_plan_setting_id")
+  aircraftSettingId   Int       @map("aircraft_setting_id")
+  accidentSettingId   Int?      @map("accident_setting_id")
+  settingType         String    @map("setting_type")
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  periodSetting     PeriodSetting     @relation(fields: [periodSettingId], references: [id])
+  areaSetting       AreaSetting       @relation(fields: [areaSettingId], references: [id])
+  flightPlanSetting FlightPlanSetting @relation(fields: [flightPlanSettingId], references: [id])
+  aircraftSetting   AircraftSetting   @relation(fields: [aircraftSettingId], references: [id])
+  accidentSetting   AccidentSetting?  @relation(fields: [accidentSettingId], references: [id])
+
+  graphSettings GraphSetting[]
+
+  @@map("user_settings")
+}
+
+model PeriodSetting {
+  id        Int       @id @default(autoincrement())
+  fromDate  DateTime  @map("from_date")
+  toDate    DateTime  @map("to_date")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  userSettings UserSetting[]
+
+  @@map("period_settings")
+}
+
+model AreaSetting {
+  id              Int       @id @default(autoincrement())
+  areaType        String    @map("area_type")
+  prefecture      String?   @map("prefecture")
+  city            String?   @map("city")
+  town            String?   @map("town")
+  variousAreaType String?   @map("various_area_type")
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  userSettings UserSetting[]
+
+  @@map("area_settings")
+}
+
+model AircraftSetting {
+  id                    Int       @id @default(autoincrement())
+  manufacturerName      String?   @map("manufacturer_name")
+  modelName             String?   @map("model_name")
+  aircraftType          String?   @map("aircraft_type")
+  aircraftWeight        String?   @map("aircraft_weight")
+  manufacturingCategory String?   @map("manufacturing_category")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  userSettings UserSetting[]
+
+  @@map("aircraft_settings")
+}
+
+model FlightPlanSetting {
+  id             Int       @id @default(autoincrement())
+  flightPurpose  Json?     @map("flight_purpose")
+  flightMethod   Json?     @map("flight_method")
+  flightAltitude Float?    @map("flight_altitude")
+  flightSpeed    Float?    @map("flight_speed")
+  createdAt      DateTime  @default(now()) @map("created_at")
+  updatedAt      DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  userSettings UserSetting[]
+
+  @@map("flight_plan_settings")
+}
+
+model AccidentSetting {
+  id               Int       @id @default(autoincrement())
+  accidentCategory String    @map("accident_category")
+  accidentType     String?   @map("accident_type")
+  createdAt        DateTime  @default(now()) @map("created_at")
+  updatedAt        DateTime? @updatedAt @map("updated_at")
+
+  // Relations
+  userSettings UserSetting[]
+
+  @@map("accident_settings")
+}
+
+model GraphSetting {
+  id            Int       @id @default(autoincrement())
+  userId        String    @map("user_id")
+  useCase       String    @map("use_case")
+  userSettingId Int       @map("user_setting_id")
+  graphTitle    String    @map("graph_title")
+  graphType     String    @map("graph_type")
+  graphSettings Json      @map("graph_settings")
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @updatedAt @map("updated_at")
+
+  // Relation
+  userSetting UserSetting @relation(fields: [userSettingId], references: [id])
+
+  @@map("graph_settings")
+}
+
+model UseCase13Prefectures {
+  id   Int                     @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  geom Unsupported("GEOMETRY")
+  name String                  @map("name") @db.Text
+
+  @@index([geom(length: 32)], map: "geom")
+  @@index([name(length: 32)])
+  @@map("usecase13_prefectures")
+}
+
+model UseCase13PrefecturePoints {
+  id   Int                     @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  geom Unsupported("GEOMETRY")
+  name String                  @map("name") @db.Text
+
+  @@index([geom(length: 32)], map: "geom")
+  @@index([name(length: 32)])
+  @@map("usecase13_prefecture_points")
+}
+
+model UseCase13RouteSearchLogisticsBases {
+  id                  Int                     @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  geom                Unsupported("GEOMETRY")
+  originName          String                  @map("origin_name") @db.Text
+  originLon           Float                   @map("origin_lon") @db.Double
+  originLat           Float                   @map("origin_lat") @db.Double
+  destinationName     String                  @map("destination_name") @db.Text
+  destinationLon      Float                   @map("destination_lon") @db.Double
+  destinationLat      Float                   @map("destination_lat") @db.Double
+  transportationMode  String                  @map("transportation_mode") @db.Text
+  minimumTimeFlag     Int                     @map("minimum_time_flag")
+  minimumDistanceFlag Int                     @map("minimum_distance_flag")
+  totalTime           Float                   @map("total_time") @db.Float
+  totalDistance       Float                   @map("total_distance") @db.Float
+  waypointName_1      String?                 @map("waypoint_name_1") @db.Text
+  waypointMode_1      String?                 @map("waypoint_mode_1") @db.Text
+  waypointLat_1       Float?                  @map("waypoint_lat_1") @db.Double
+  waypointLon_1       Float?                  @map("waypoint_lon_1") @db.Double
+  waypointTime_1      Float?                  @map("waypoint_time_1") @db.Float
+  waypointDistance_1  Float?                  @map("waypoint_distance_1") @db.Float
+  waypointName_2      String?                 @map("waypoint_name_2") @db.Text
+  waypointMode_2      String?                 @map("waypoint_mode_2") @db.Text
+  waypointLat_2       Float?                  @map("waypoint_lat_2") @db.Double
+  waypointLon_2       Float?                  @map("waypoint_lon_2") @db.Double
+  waypointTime_2      Float?                  @map("waypoint_time_2") @db.Float
+  waypointDistance_2  Float?                  @map("waypoint_distance_2") @db.Float
+  waypointName_3      String?                 @map("waypoint_name_3") @db.Text
+  waypointMode_3      String?                 @map("waypoint_mode_3") @db.Text
+  waypointLat_3       Float?                  @map("waypoint_lat_3") @db.Double
+  waypointLon_3       Float?                  @map("waypoint_lon_3") @db.Double
+  waypointTime_3      Float?                  @map("waypoint_time_3") @db.Float
+  waypointDistance_3  Float?                  @map("waypoint_distance_3") @db.Float
+  waypointName_4      String?                 @map("waypoint_name_4") @db.Text
+  waypointMode_4      String?                 @map("waypoint_mode_4") @db.Text
+  waypointLat_4       Float?                  @map("waypoint_lat_4") @db.Double
+  waypointLon_4       Float?                  @map("waypoint_lon_4") @db.Double
+  waypointTime_4      Float?                  @map("waypoint_time_4") @db.Float
+  waypointDistance_4  Float?                  @map("waypoint_distance_4") @db.Float
+  waypointName_5      String?                 @map("waypoint_name_5") @db.Text
+  waypointMode_5      String?                 @map("waypoint_mode_5") @db.Text
+  waypointLat_5       Float?                  @map("waypoint_lat_5") @db.Double
+  waypointLon_5       Float?                  @map("waypoint_lon_5") @db.Double
+  waypointTime_5      Float?                  @map("waypoint_time_5") @db.Float
+  waypointDistance_5  Float?                  @map("waypoint_distance_5") @db.Float
+  createdAt           DateTime                @default(now()) @map("created_at")
+  updatedAt           DateTime?               @updatedAt @map("updated_at")
+  deletedAt           DateTime?               @map("deleted_at")
+
+  @@index([geom(length: 32)], map: "geom")
+  @@index([originName(length: 32)])
+  @@index([destinationName(length: 32)])
+  @@index([transportationMode(length: 32)])
+  @@index([totalTime])
+  @@map("usecase13_route_search_logistics_bases")
+}
+
+model AccountManagement {
+  id         Int       @id @default(autoincrement()) @map("id") @db.UnsignedInt // 主キー
+  userId     String    @map("user_id") // ユーザーID (Google Identifier platformのUID)
+  role       Int?      @map("role") // アクセス権限（閲覧・編集など）
+  useCaseIds Json?     @map("use_case_ids")
+  createdAt  DateTime  @default(now()) @map("created_at") // 作成日
+  updatedAt  DateTime? @updatedAt @map("updated_at") // 更新日
+  deletedAt  DateTime? @map("deleted_at") // 削除日
+
+  @@map("account_managements")
+}
+
+model UserSession {
+  id        Int      @id @default(autoincrement()) @map("id") @db.UnsignedInt
+  userId    String   @map("user_id")
+  sessionId String   @unique @map("session_id") @db.VarChar(191)
+  username  String   @map("username")
+  expiresAt DateTime @map("expires_at")
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@index([sessionId], map: "idx_session_id")
+  @@map("user_sessions")
+}

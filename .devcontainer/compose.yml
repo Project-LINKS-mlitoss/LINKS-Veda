@@ -1,0 +1,9 @@
+---
+services:
+  web:
+    volumes:
+      - vscode_server_volume:/root/.vscode-server
+
+volumes:
+  vscode_server_volume:
+    driver: local

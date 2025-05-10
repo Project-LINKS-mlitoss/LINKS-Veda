@@ -1,0 +1,79 @@
+services:
+  web:
+    container_name: web
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+      target: development
+    tty: true
+    volumes:
+      - ./web:/app
+      - node_modules:/app/node_modules
+    environment:
+      - NODE_ENV=development
+    restart: always
+    ports:
+      - 3000:3000
+      - 5555:5555
+      - 6006:6006
+    depends_on:
+      - links_veda_db
+
+  firebase:
+    build:
+      context: .
+      dockerfile: ./firebase/Dockerfile
+    volumes:
+      - ./firebase/.firebaserc:/opt/firebase/.firebaserc
+      - ./firebase/firebase.json:/opt/firebase/firebase.json
+      - ./firebase/firestore.indexes.json:/opt/firebase/firestore.indexes.json
+      - ./firebase/firestore.rules:/opt/firebase/firestore.rules
+      - ./firebase/bin/:/root/.cache:cached
+      - ./firebase/config/:/root/.config:cached
+      - ./firebase/functions:/opt/firebase/functions
+      - ./firebase/extensions:/opt/firebase/extensions
+    ports:
+      - 9099:9099
+      - 4000:4000
+    working_dir: /opt/firebase
+    command: firebase emulators:start
+
+  fake_gcs:
+    container_name: fake_gcs
+    image: fsouza/fake-gcs-server:latest
+    ports:
+      - 4443:4443
+    environment:
+      - STORAGE_EMULATOR_HOST=http://fake_gcs:4443
+    volumes:
+      - ${PWD}/tmp/gcs-data:/data
+
+  # prism:
+  #   image: stoplight/prism:4
+  #   command: 'mock -h 0.0.0.0 -d /tmp/integration.yml'
+  #   volumes:
+  #     - ${PWD}/reearth-cms-api/schemas/integration.yml:/tmp/integration.yml:ro
+  #   ports:
+  #     - '8080:4010'
+
+  links_veda_db:
+    image: mysql/mysql-server:latest
+    container_name: links_veda_db
+    # platform: linux/x86_64
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_bin
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USERNAME: root
+      MYSQL_PASSWORD: root
+      MYSQL_DATABASE: "links-veda-local"
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - "33076:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  node_modules:
+  fake-gcs-data:
+  mysql-data:

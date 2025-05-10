@@ -1,0 +1,66 @@
+<svg
+    width="16"
+    height="16"
+    viewBox="0 0 15 14"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    aria-labelledby="svg-title"
+>
+    <title id="svg-title">{"icon"}</title>
+    <path
+        d="M7.77419 2.5724C8.02168 2.45694 8.28949 2.39137 8.56232 2.37941C8.83516 2.36745 9.10768 2.40935 9.36432 2.50271C9.62096 2.59608 9.8567 2.73907 10.0581 2.92354C10.2595 3.10801 10.4225 3.33034 10.538 3.57783L11.0175 4.6058"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M9.95206 4.21832L11.018 4.60611L11.4058 3.54013"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M7.5 5.5V4.75L5.75009 3H2.24999C2.18369 3 2.1201 3.02634 2.07322 3.07323C2.02634 3.12011 2 3.1837 2 3.25V8.75C2 8.8163 2.02634 8.87989 2.07322 8.92677C2.1201 8.97366 2.18369 9 2.24999 9H5.5"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M5.5 3V5H7.5"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M7.5 7H13.5V11.25C13.5 11.3163 13.4737 11.3799 13.4268 11.4268C13.3799 11.4737 13.3163 11.5 13.25 11.5H7.75C7.6837 11.5 7.62011 11.4737 7.57322 11.4268C7.52634 11.3799 7.5 11.3163 7.5 11.25V7Z"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M7.5 8.5H13.5"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M7.5 10H13.5"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+    <path
+        d="M9.25 8.5V11.5"
+        stroke="black"
+        strokeOpacity="0.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+    />
+</svg>

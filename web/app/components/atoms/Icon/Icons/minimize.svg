@@ -1,0 +1,6 @@
+<svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}    >
+            <path d="M11.6406 5.57812V8.85938H14.9219" stroke="black" strokeOpacity="0.85" strokeWidth="1.09375" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M15.4688 5.03125L11.6406 8.85938" stroke="black" strokeOpacity="0.85" strokeWidth="1.09375" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M5.07812 12.1406H8.35938V15.4219" stroke="black" strokeOpacity="0.85" strokeWidth="1.09375" strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M4.53125 15.9688L8.35938 12.1406" stroke="black" strokeOpacity="0.85" strokeWidth="1.09375" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>

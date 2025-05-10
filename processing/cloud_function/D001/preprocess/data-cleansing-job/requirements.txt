@@ -1,0 +1,10 @@
+Flask==2.1.1
+Werkzeug==2.1.1
+geopandas==1.0.1
+pandas==2.2.2
+requests==2.32.3
+pymongo==4.8.0
+shapely==2.0.6
+scipy==1.14.1
+aiohttp==3.11.11
+python-magic==0.4.27

@@ -1,0 +1,17 @@
+requests==2.32.3
+boto3==1.35.74
+pandas==2.2.2
+pymongo==4.8.0
+Flask==2.1.1
+Werkzeug==2.1.1
+opensearch-py==2.7.1
+geopandas==1.0.1
+pydantic==2.9.2
+google-cloud-bigquery==3.26.0
+python-magic==0.4.27
+google-cloud-aiplatform==1.76.0
+langchain-google-vertexai==2.0.10
+google-cloud-storage==2.19.0
+langchain-aws==0.2.10
+langchain_google_community==2.0.4
+langchain-google-community[featurestore]

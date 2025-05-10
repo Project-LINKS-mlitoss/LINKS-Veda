@@ -1,0 +1,90 @@
+html {
+  height: 100%;
+}
+
+body {
+  margin: unset !important;
+  background-color: #fafafa;
+  height: 100%;
+}
+
+.leaflet-popup-content {
+  margin: 12px 20px 12px 12px !important;
+}
+
+.clickable-row {
+  cursor: pointer;
+}
+
+.resize-handle {
+  position: relative;
+}
+
+.resize-handle::before,
+.resize-handle::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 2px;
+  height: 100%;
+  background-color: transparent;
+}
+
+.resize-handle::before:hover,
+.resize-handle::after:hover {
+  cursor: ew-resize;
+}
+
+.resize-handle::before {
+  left: -2px;
+}
+
+.resize-handle::after {
+  right: -2px;
+}
+
+.resize-handle:hover {
+  cursor: ew-resize;
+}
+
+.alignment-item {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  display: block;
+}
+
+.alignment-item-in {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  max-width: 100%;
+  overflow: auto;
+  height: 100%;
+}
+
+.icon-drag {
+  cursor: move;
+}
+
+.horizontal-label .ant-row {
+  flex-direction: row !important;
+  flex-flow: initial !important;
+  gap: 4px;
+}
+.horizontal-label .ant-row .ant-form-item-label {
+  display: flex;
+  align-items: center !important;
+  min-width: 60px !important;
+  padding: 0 !important;
+}
+.horizontal-label .ant-row .ant-form-item-control {
+  min-width: 0 !important;
+}
+
+.ant-btn-icon {
+  display: flex;
+  align-items: center;
+}

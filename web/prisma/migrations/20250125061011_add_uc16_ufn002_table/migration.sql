@@ -1,0 +1,33 @@
+-- CreateTable
+CREATE TABLE `UC16UFN002Setting` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `userId` VARCHAR(191) NOT NULL,
+    `from` DATETIME(3) NOT NULL,
+    `to` DATETIME(3) NOT NULL,
+    `selectArea` VARCHAR(191) NULL,
+    `activeAccidentType` VARCHAR(191) NULL,
+    `accidentSummary` TEXT NULL,
+    `maker` VARCHAR(191) NULL,
+    `modalName` JSON NULL,
+    `kind` JSON NULL,
+    `aircraftWeight` VARCHAR(191) NULL,
+    `maximumTakeWeight` VARCHAR(191) NULL,
+    `fullWidth` VARCHAR(191) NULL,
+    `fullLength` VARCHAR(191) NULL,
+    `overAllWeight` VARCHAR(191) NULL,
+    `personalCompensationAmount` VARCHAR(191) NULL,
+    `objectiveCompensationAmount` VARCHAR(191) NULL,
+    `purpose` VARCHAR(191) NULL,
+    `method` VARCHAR(191) NULL,
+    `altitude` VARCHAR(191) NULL,
+    `higher_lower` VARCHAR(191) NULL,
+    `speed` VARCHAR(191) NULL,
+    `slower_faster` VARCHAR(191) NULL,
+    `prefecture` VARCHAR(191) NULL,
+    `city` VARCHAR(191) NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NULL,
+
+    UNIQUE INDEX `UC16UFN002Setting_userId_key`(`userId`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

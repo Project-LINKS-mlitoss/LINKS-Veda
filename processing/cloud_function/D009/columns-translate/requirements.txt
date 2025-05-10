@@ -1,0 +1,6 @@
+Flask==2.1.1
+Werkzeug==2.1.1
+pydantic==2.9.2
+boto3==1.35.74
+langchain-aws==0.2.10
+requests==2.32.3

@@ -1,0 +1,10 @@
+numpy==2.2.4
+python-dotenv==1.0.1
+pypdf==5.4.0
+scikit-learn==1.6.1
+torch==2.6.0
+torchvision==0.21.0
+transformers==4.49.0
+azure-ai-formrecognizer==3.3.3
+fugashi==1.4.0
+unidic-lite==1.0.8
